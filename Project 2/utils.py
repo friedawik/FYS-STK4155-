@@ -71,10 +71,9 @@ class Feed_forward_nn:
 
                 # Create starting weights and biases
                 self.parameters = self.init_weights_and_biases()
-
                 
         def init_weights_and_biases(self):
-                param={}
+                param={}        # contains weight and biases
                 # Initialize first hidden layers
                 param[f'W{1}'] = np.random.randn(self.n_features, self.layer_dim[0])
                 #param[f'b{1}'] = np.zeros((self.layer_dim[0], 1)) + 0.01
@@ -91,7 +90,7 @@ class Feed_forward_nn:
 
 
         def feed_forward(self):
-                mem = {'A0':self.X_batch}  # input layer 
+                mem = {'A0':self.X_batch}  # dict mem contains all input z and output a of the layers
                 for l in range(1,self.n_layers+2):       
                         z = mem[f'A{l-1}'] @ self.parameters[f'W{l}'] + self.parameters[f'b{l}']
                 
@@ -122,8 +121,7 @@ class Feed_forward_nn:
                                 mem[f'A{l}'] = self.sigmoid(z)
                 probabilities = mem[f'A{l}']
                 
-                #return np.argmax(probabilities, axis=1)
-         
+                #return np.argmax(probabilities, axis=1)   
                 #return np.mean(probabilities, axis=1)    
         
                 return probabilities
